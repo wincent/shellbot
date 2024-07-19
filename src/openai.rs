@@ -4,7 +4,7 @@ use reqwest::header::{HeaderMap, HeaderValue};
 use reqwest::{Client, RequestBuilder};
 use serde::{Deserialize, Serialize};
 
-const MODEL: &str = "gpt-4";
+const MODEL: &str = "gpt-4o";
 pub fn get_request(api_key: &str, request: ChatRequest) -> RequestBuilder {
     let mut messages = vec![ChatMessage {
         role: ChatRole::System,
