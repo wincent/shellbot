@@ -71,13 +71,11 @@ fn structure_input() -> ChatRequest {
     let args: Vec<String> = std::env::args().collect();
     let system_prompt = if args.len() > 1 {
         let file_path = &args[1];
-        println!("FILE {:?}", file_path);
         let mut file = File::open(file_path).unwrap_or_else(|_| {
             panic!("Failed to open file: {}", file_path);
         });
         let mut contents = String::new();
         file.read_to_string(&mut contents).unwrap();
-        println!("contents {:?}", contents);
         contents
     } else {
         get_default_prompt()
