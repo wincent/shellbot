@@ -18,7 +18,7 @@ If a transcript does not start with a System section, then the default System pr
 ## Lua script
 The included lua script can be copied to `.config/nvim/lua` and installed with something like 
 ```
-vim.cmd("command! ChatGPT lua require'chatgpt'.chatgpt()")
+vim.cmd("command! ChatGPT lua require'chatbot'.chatbot()")
 ```
 
 This command locates the Rust binary through the `SHELLBOT` environment variable. This should be set to the absolute path of the rust binary built in the step above.
