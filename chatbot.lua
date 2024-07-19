@@ -4,9 +4,10 @@ local is_receiving = false
 local bot_cmd = os.getenv("SHELLBOT")
 local separator = "==="
 
+local nbsp = ' '
 local roles = {
-  USER = "◭🧑 " .. os.getenv('USER'),
-  ASSISTANT = "◮🤖 vimbot",
+  USER = nbsp .. "🤓 «" .. os.getenv('USER') .. "»" .. nbsp,
+  ASSISTANT = nbsp .. "🤖 «vimbot»" .. nbsp,
 }
 
 local buffer_sync_cursor = {}
@@ -95,9 +96,9 @@ function ChatBotSubmit()
   local function get_transcript()
     local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
     for i, line in ipairs(lines) do
-      if line:match("^◭") then -- '^' means start of line
+      if line:match('^' .. nbsp .. '🤓') then  -- '^' means start of line
         lines[i] = separator .. "USER" .. separator
-      elseif line:match("^◮") then
+      elseif line:match('^' .. nbsp ..'🤖') then
         lines[i] = separator .. "ASSISTANT" .. separator
       end
     end
