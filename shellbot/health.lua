@@ -7,10 +7,15 @@ return {
     local shellbot = vim.env['SHELLBOT']
     if shellbot == nil then
       health.warn('SHELLBOT environment variable is not set')
-    elseif vim.fn.executable(shellbot) ~= 1 then
-      health.warn('SHELLBOT (' .. vim.inspect(shellbot) .. ') is not executable')
     else
-      health.ok('SHELLBOT environment variable is set to an executable')
+      local executable = vim.fn.split(shellbot, ' ')[1]
+      if executable == nil then
+        health.warn('SHELLBOT environment variable is empty')
+      elseif vim.fn.executable(executable) ~= 1 then
+        health.warn('SHELLBOT (' .. vim.inspect(shellbot) .. ') is not executable')
+      else
+        health.ok('SHELLBOT environment variable is set to an executable')
+      end
     end
   end,
 }
