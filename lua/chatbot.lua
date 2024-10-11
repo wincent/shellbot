@@ -213,13 +213,6 @@ function ChatBotInit()
   buffer_sync_cursor[bufnr] = true
   vim.api.nvim_set_option_value('filetype', 'shellbot', { buf = bufnr })
   add_transcript_header(winnr, bufnr, "USER", 0)
-  local modes = { 'n', 'i' }
-  for _, mode in ipairs(modes) do
-    vim.api.nvim_buf_set_keymap(bufnr, mode, '<C-Enter>', '<ESC>:lua ChatBotSubmit()<CR>',
-      { noremap = true, silent = true })
-    vim.api.nvim_buf_set_keymap(bufnr, mode, '<C-o>', '<ESC>:lua ChatBotNewBuf()<CR>',
-      { noremap = true, silent = true })
-  end
 end
 
 function M.chatbot()

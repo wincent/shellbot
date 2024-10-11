@@ -13,4 +13,6 @@ vim.wo.wrap = true
 local has_shellbot = pcall(require, 'chatbot')
 if has_shellbot then
   vim.keymap.set({ 'i', 'n' }, '<M-CR>', ChatBotSubmit, { buffer = true })
+  vim.keymap.set({ 'i', 'n' }, '<C-Enter>', ChatBotSubmit, { buffer = true })
+  vim.keymap.set({ 'i', 'n' }, '<C-o>', ChatBotNewBuf, { buffer = true })
 end
