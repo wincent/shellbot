@@ -211,7 +211,7 @@ function ChatBotInit()
   local winnr = vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_get_current_buf()
   buffer_sync_cursor[bufnr] = true
-  vim.api.nvim_buf_set_option(bufnr, 'filetype', 'shellbot')
+  vim.api.nvim_set_option_value('filetype', 'shellbot', { buf = bufnr })
   add_transcript_header(winnr, bufnr, "USER", 0)
   local modes = { 'n', 'i' }
   for _, mode in ipairs(modes) do
