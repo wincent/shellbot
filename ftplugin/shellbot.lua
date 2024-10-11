@@ -1,8 +1,14 @@
+vim.bo.buflisted = true
+vim.bo.buftype = 'nofile'
+vim.bo.modified = false
 vim.bo.textwidth = 0
+vim.wo.breakindent = true
+vim.wo.linebreak = true
 vim.wo.list = false
 vim.wo.number = false
 vim.wo.relativenumber = false
 vim.wo.showbreak = 'NONE'
+vim.wo.wrap = true
 
 local has_shellbot = pcall(require, 'chatbot')
 if has_shellbot then
