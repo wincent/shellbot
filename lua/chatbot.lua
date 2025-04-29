@@ -10,6 +10,8 @@ local roles = {
   ASSISTANT = nbsp .. "🤖 «vimbot»" .. nbsp,
 }
 
+local buffer_env = {}
+
 local buffer_sync_cursor = {}
 function ChatBotCancelCursorSync()
   local bufnr = vim.api.nvim_get_current_buf()
@@ -44,6 +46,10 @@ function ChatBotSubmit()
   vim.cmd("normal! Go")
   local winnr = vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_get_current_buf()
+  local env = buffer_env[bufnr] and vim.tbl_extend('keep', buffer_env[bufnr], {
+    SHELLBOT_LOG_FILE = vim.env['SHELLBOT_LOG_FILE'],
+  })
+  local clear_env = not not env
   buffer_sync_cursor[bufnr] = true
   local function receive_stream(_, data, _)
     if #data > 1 or data[1] ~= '' then
@@ -113,6 +119,8 @@ function ChatBotSubmit()
       local output = {}
 
       local job_id = vim.fn.jobstart(bot_cmd, {
+        clear_env = clear_env,
+        env = env,
         on_stdout = function(_, data, _)
           if data[1] ~= "" then
             table.insert(output, data[1])
@@ -155,6 +163,8 @@ function ChatBotSubmit()
   end
 
   local job_id = vim.fn.jobstart(bot_cmd, {
+    clear_env = clear_env,
+    env = env,
     on_stdout = receive_stream,
     on_exit = stream_done,
     on_stderr = function(_, data, _)
@@ -203,27 +213,25 @@ function ChatBotSubmit()
 end
 
 function ChatBotNewBuf()
+  local bufnr = vim.api.nvim_get_current_buf()
   vim.cmd("enew")
-  ChatBotInit()
+  ChatBotInit(buffer_env[bufnr])
 end
 
-function ChatBotInit()
+function ChatBotInit(env)
   local winnr = vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_get_current_buf()
+  buffer_env[bufnr] = env
   buffer_sync_cursor[bufnr] = true
   vim.api.nvim_set_option_value('filetype', 'shellbot', { buf = bufnr })
   add_transcript_header(winnr, bufnr, "USER", 0)
 end
 
-function M.chatbot()
+function M.chatbot(env)
   vim.cmd("botright vnew")
   vim.cmd("set winfixwidth")
   vim.cmd("vertical resize 60")
-  ChatBotInit()
-end
-
-function M.chatbot_init()
-  ChatBotInit()
+  ChatBotInit(env)
 end
 
 function ChatBotCancelResponse()
