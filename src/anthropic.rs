@@ -5,7 +5,7 @@ use reqwest::header::{HeaderMap, HeaderValue};
 use reqwest::{Client, RequestBuilder};
 use serde::{Deserialize, Serialize};
 
-const MODEL: &str = "claude-3-7-sonnet-20250219";
+const MODEL: &str = "claude-sonnet-4-5-20250929";
 pub fn get_request(api_key: &str, model: &str, request: ChatRequest) -> RequestBuilder {
     let client = Client::new();
     let url = "https://api.anthropic.com/v1/messages";
